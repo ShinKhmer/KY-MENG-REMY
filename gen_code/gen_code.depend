@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1518100850 source:d:\dossier de stephane\cours\2i\projet_annuel\gen_code\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+
