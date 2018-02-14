@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1518455425 source:d:\esgi\ky-meng-remy\gtk\lib\gtk_functions.c
+
+1518635784 source:d:\esgi\ky-meng-remy\gtk\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<gtk/gtk.h>
+	"lib/gtk_functions.c"
+
+1518455425 d:\esgi\ky-meng-remy\gtk\lib\gtk_functions.c
+
