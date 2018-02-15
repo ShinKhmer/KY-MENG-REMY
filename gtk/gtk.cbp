@@ -14,6 +14,10 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add option="-Wall -lgdi32" />
+					<Add library="../../../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libmysqlclient.a" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/gtk" prefix_auto="1" extension_auto="1" />
