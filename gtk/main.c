@@ -7,9 +7,19 @@
 #include "lib/gtk_functions.c"
 
 
-static void print_hello(GtkWidget *, gpointer);
-static void activate (GtkApplication *, gpointer);
+void print_hello(GtkWidget *, gpointer);
+void activate (GtkApplication *, gpointer);
+void window_create(GtkApplication *);
+void button_create(char*, int, int, int, int, GtkWidget *, gpointer, int);
 
+
+GtkWidget *window;
+GtkWidget *notebook;
+GtkWidget *vbox;
+GtkWidget *grid;
+GtkWidget *button;
+GtkWidget *pTabLabel;
+gchar *sTabLabel;
 
 
 int main (int argc, char **argv)
@@ -27,89 +37,42 @@ int main (int argc, char **argv)
 
 
 
-static void print_hello (GtkWidget *widget, gpointer data)
+void print_hello(GtkWidget *widget, gpointer data)
 {
   g_print ("Hello World\n");
 }
 
-static void activate (GtkApplication *app, gpointer user_data)
+void activate(GtkApplication *app, gpointer user_data)
 {
-    GtkWidget *window;
-    GtkWidget *notebook;
-    GtkWidget *grid;
-    GtkWidget *button;
-    GtkWidget *frame;
-    GtkWidget *label;
-    int i;
-    char bufferf;
-    char bufferl;
 
-    /* create a new window, and set its title */
-    window = gtk_application_window_new (app);
-    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER); /** LA FENETRE SERA POSITIONNEEE AU MILIEU **/
-    gtk_window_set_default_size(GTK_WINDOW(window), 400, 400); /** DIMENSION DE LA FENETRE **/
-    gtk_window_set_title(GTK_WINDOW(window), "Code validation"); /** TITRE DE LA FENETRE **/
-    gtk_container_set_border_width (GTK_CONTAINER (window), 10);
+    window_create(app);
 
     notebook = gtk_notebook_new();
+    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
+
     gtk_container_add(GTK_CONTAINER(window), notebook);
 
-    /* Let's append a bunch of pages to the notebook */
-    for (i = 0; i < 5; i++) {
-	sprintf(bufferf, "Append Frame %d", i + 1);
-	sprintf(bufferl, "Page %d", i + 1);
+    vbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+    sTabLabel = g_strdup_printf("Onglet 1");
+    pTabLabel = gtk_label_new(sTabLabel);
 
-	frame = gtk_frame_new (bufferf);
-	gtk_container_set_border_width (GTK_CONTAINER (frame), 10);
-	gtk_widget_set_size_request (frame, 100, 75);
-	gtk_widget_show (frame);
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, pTabLabel);
 
-	label = gtk_label_new (bufferf);
-	gtk_container_add (GTK_CONTAINER (frame), label);
-	gtk_widget_show (label);
-
-	label = gtk_label_new (bufferl);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, label);
-    }
 
     /* Here we construct the container that is going pack our buttons */
-    grid = gtk_grid_new ();
+    grid = gtk_grid_new();
 
     /* Pack the container in the window */
-    gtk_container_add (GTK_CONTAINER (notebook), grid);
+    gtk_container_add(GTK_CONTAINER (vbox), grid);
 
-    button = gtk_button_new_with_label ("Button 1");
-    gtk_widget_set_hexpand (button, TRUE);
+    button_create("Je n'ai pas de code", 0, 0, 1, 1, print_hello, NULL, 0);
+    button_create("J'ai un code", 0, 1, 1, 1, print_hello, NULL, 0);
+    button_create("Quitter", 0, 2, 1, 1, gtk_widget_destroy, window, 1);
 
-    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
-
-    /* Place the first button in the grid cell (0, 0), and make it fill
-    * just 1 cell horizontally and vertically (ie no spanning)
-    */
-    gtk_grid_attach (GTK_GRID (grid), button, 0, 0, 1, 1);
-
-    button = gtk_button_new_with_label ("Button 2");
-    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
-
-    /* Place the second button in the grid cell (1, 0), and make it fill
-    * just 1 cell horizontally and vertically (ie no spanning)
-    */
-    gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 1, 1);
-
-    button = gtk_button_new_with_label ("Quit");
-    g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_destroy), window);
-
-
-    gtk_grid_set_row_spacing (GTK_GRID(grid), 50);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 50);
     gtk_grid_set_column_spacing (GTK_GRID(grid), 50);
 
-    /* Place the Quit button in the grid cell (0, 1), and make it
-    * span 2 columns.
-    */
-    gtk_grid_attach (GTK_GRID (grid), button, 0, 2, 1, 1);
 
-
-    // 2ND NOTEBOOK
 
     /* Now that we are done packing our widgets, we show them all
     * in one go, by calling gtk_widget_show_all() on the window.
@@ -118,4 +81,25 @@ static void activate (GtkApplication *app, gpointer user_data)
     */
     gtk_widget_show_all (window);
 
+}
+
+void window_create(GtkApplication *app){
+    window = gtk_application_window_new (app);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER); /** LA FENETRE SERA POSITIONNEEE AU MILIEU **/
+    gtk_window_set_default_size(GTK_WINDOW(window), 400, 200); /** DIMENSION DE LA FENETRE **/
+    gtk_window_set_title(GTK_WINDOW(window), "Code validation"); /** TITRE DE LA FENETRE **/
+    gtk_container_set_border_width (GTK_CONTAINER (window), 10);
+}
+
+void button_create(char* name, int x, int y, int length, int width, GtkWidget *callback, gpointer data, int swapped){
+
+    button = gtk_button_new_with_label(name);
+    gtk_widget_set_hexpand (button, TRUE);
+    if(swapped == 1){
+        g_signal_connect_swapped(button, "clicked", G_CALLBACK (callback), data);
+    }
+    else{
+        g_signal_connect(button, "clicked", G_CALLBACK (callback), data);
+    }
+    gtk_grid_attach (GTK_GRID (grid), button, x, y, length, width);
 }
