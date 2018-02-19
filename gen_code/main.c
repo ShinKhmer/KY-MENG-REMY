@@ -6,6 +6,7 @@
 #include <MYSQL/mysql.h>
 #include <winsock2.h>
 
+
 void generate_code(char* code);
 int check_code(char *code_string);
 int log_in_out(int *id_location, char * code_customer);
@@ -107,23 +108,23 @@ int log_in_out(int *id_location, char * code_customer){
         {
             if(strcmp(row[5],code_customer)== 0)
             {
-                id_customer = row[0];
-                inside = row[6];
+                id_customer = atoi(row[0]);
+                inside = atoi(row[6]);
             }
         }
         mysql_free_result(result);
-        if(id_customer != 0 && inside = 0)
+        if(id_customer != 0 && inside == 0)
         {
-            sprintf(request,"INSERT INTO `history`(`id_history`, `date_entry`, `date_exit`, `id_customer`, `id_location`) VALUES (NULL,[value-2],NULL,%d,%d)",id_customer,id_location);
+            sprintf(request,"INSERT INTO `history`(`id_history`, `date_entry`, `date_exit`, `id_customer`, `id_location`) VALUES (NULL,CURRENT_TIMESTAMP,NULL,%d,%d)",id_customer,id_location);
             mysql_query(mysql,request);
             sprintf(request,"UPDATE `customer` SET inside = 1 WHERE id_customer = %d",id_customer);
             mysql_query(mysql,request);
 
         }
-        else if(id_customer != 0 && inside = 1)
+        else if(id_customer != 0 && inside == 1)
         {
 
-            sprintf(request,"UPDATE `history` SET `date_exit` = [value] WHERE id_customer = %d AND date_exit = NULL",id_customer);
+            sprintf(request,"UPDATE `history` SET `date_exit` = CURRENT_TIMESTAMP WHERE id_customer = %d AND date_exit IS NULL",id_customer);
             mysql_query(mysql,request);
             sprintf(request,"UPDATE `customer` SET inside = 0 WHERE id_customer = %d",id_customer);
             mysql_query(mysql,request);
@@ -141,11 +142,9 @@ int log_in_out(int *id_location, char * code_customer){
     return 99;
 }
 
-
-void sign_in(){
+/*
+int sign_in(){
     MYSQL *mysql;
-    MYSQL_RES *result = NULL;
-    MYSQL_ROW row;
     char request[150];
 
     mysql = mysql_init(NULL);
@@ -161,3 +160,4 @@ void sign_in(){
     }
     return 99;
 }
+*/
