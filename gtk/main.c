@@ -35,8 +35,14 @@ static void print_hello (GtkWidget *widget, gpointer data)
 static void activate (GtkApplication *app, gpointer user_data)
 {
     GtkWidget *window;
+    GtkWidget *notebook;
     GtkWidget *grid;
     GtkWidget *button;
+    GtkWidget *frame;
+    GtkWidget *label;
+    int i;
+    char bufferf;
+    char bufferl;
 
     /* create a new window, and set its title */
     window = gtk_application_window_new (app);
@@ -45,11 +51,32 @@ static void activate (GtkApplication *app, gpointer user_data)
     gtk_window_set_title(GTK_WINDOW(window), "Code validation"); /** TITRE DE LA FENETRE **/
     gtk_container_set_border_width (GTK_CONTAINER (window), 10);
 
+    notebook = gtk_notebook_new();
+    gtk_container_add(GTK_CONTAINER(window), notebook);
+
+    /* Let's append a bunch of pages to the notebook */
+    for (i = 0; i < 5; i++) {
+	sprintf(bufferf, "Append Frame %d", i + 1);
+	sprintf(bufferl, "Page %d", i + 1);
+
+	frame = gtk_frame_new (bufferf);
+	gtk_container_set_border_width (GTK_CONTAINER (frame), 10);
+	gtk_widget_set_size_request (frame, 100, 75);
+	gtk_widget_show (frame);
+
+	label = gtk_label_new (bufferf);
+	gtk_container_add (GTK_CONTAINER (frame), label);
+	gtk_widget_show (label);
+
+	label = gtk_label_new (bufferl);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, label);
+    }
+
     /* Here we construct the container that is going pack our buttons */
     grid = gtk_grid_new ();
 
     /* Pack the container in the window */
-    gtk_container_add (GTK_CONTAINER (window), grid);
+    gtk_container_add (GTK_CONTAINER (notebook), grid);
 
     button = gtk_button_new_with_label ("Button 1");
     gtk_widget_set_hexpand (button, TRUE);
@@ -60,8 +87,6 @@ static void activate (GtkApplication *app, gpointer user_data)
     * just 1 cell horizontally and vertically (ie no spanning)
     */
     gtk_grid_attach (GTK_GRID (grid), button, 0, 0, 1, 1);
-
-
 
     button = gtk_button_new_with_label ("Button 2");
     g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
@@ -82,6 +107,9 @@ static void activate (GtkApplication *app, gpointer user_data)
     * span 2 columns.
     */
     gtk_grid_attach (GTK_GRID (grid), button, 0, 2, 1, 1);
+
+
+    // 2ND NOTEBOOK
 
     /* Now that we are done packing our widgets, we show them all
     * in one go, by calling gtk_widget_show_all() on the window.

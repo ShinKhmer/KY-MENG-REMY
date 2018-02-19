@@ -7,100 +7,116 @@
 #include "lib/gtk_functions.c"
 
 
-void createWinGTK(GtkWidget *);
-void test();
-
-
-// INIT GTK
-GtkWidget *window;
-GtkWidget *grid;
-GtkWidget *vbox;
-GtkWidget *notebook;
-GtkWidget *vbox2;
-GtkWidget *vbox3;
-GtkWidget *vbox4;
-GtkWidget *vbox5;
-GtkWidget *array;
-GtkWidget *button;
-GtkWidget *pTabLabel;
-GtkWidget *image;
-gchar *sTabLabel;
-
-
-int main(int argc, char **argv){
-
-    // INITIALISATION BDD
-    MYSQL *database = NULL;
-    database = mysql_init(database);
-
-    if(database == NULL){
-        printf("\nProblem while initializing database !\n");
-        return  0;
-    }
-
-    mysql_options(database, MYSQL_READ_DEFAULT_GROUP, "option");
-
-    // CONNEXION BDD
-    if(mysql_real_connect(database, "localhost", "root", "", "worknshare", 0, NULL, 0)){
-
-
-        /** INITIALISATION DE GTK **/
-        gtk_init(&argc, &argv);
-
-        /** ETAPE 1 **/
-        /** CREATION DE LA FENETRE **/
-        window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-        createWinGTK(window);
-
-
-        /** ETAPE 2 **/
-        vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0); /** CREATION DU BOX ORIENTEE VERTICALEMENT (OU HORIZONTALEMENT SELON VOTRE CHOIX) **/
-        gtk_container_add(GTK_CONTAINER(window), vbox); /** AJOUT DE LA VBOX DANS LA FENETRE **/
-
-        /** ETAPE 3 **/
-        notebook = gtk_notebook_new(); /** CREATION D'UN NOTEBOOK **/
-        gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0); /** AJOUT DU NOTEBOOK DANS LA VBOX **/
-        gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP); /** DEFINITION DE LA POSITION DES ONGLETS: top, bottom, left, right POSSIBLES **/
-
-        gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE);
-
-
-        /** VOTRE CONTENU ICI **/
-        grid = gtk_grid_new();
-
-        button = gtk_button_new_with_label("Test");
-
-        gtk_widget_set_hexpand (button, TRUE);
-        gtk_widget_set_halign (button, GTK_ALIGN_FILL);
-        gtk_grid_attach(GTK_GRID(grid), button, 0,0,1,1);
-        gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 100);
-
-        /** JOUEZ AVEC LES POSITIONS DES LIGNES ET DES COLONNES POUR LE POSITIONNEMENT DE VOS BOUTONS **/
-
-        //gtk_table_attach(GTK_TABLE(array), button, 0, 1, 0, 1, !GTK_EXPAND, !GTK_FILL, 0, 0);
-        g_signal_connect(button,"clicked", G_CALLBACK (test), NULL);
+static void print_hello(GtkWidget *, gpointer);
+static void activate (GtkApplication *, gpointer);
 
 
 
-        /** AFFICHAGE DE TOUS LES ELEMENTS DANS LA FENETRE **/
-        gtk_widget_show_all(window);
+int main (int argc, char **argv)
+{
+  GtkApplication *app;
+  int status;
 
-        gtk_main();
+  app = gtk_application_new (NULL, G_APPLICATION_FLAGS_NONE);
+  g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+  status = g_application_run (G_APPLICATION (app), argc, argv);
+  g_object_unref (app);     // Object destruction
 
-    }else{
-        printf("Problem while connecting to database !\n");
-    }
-
-    return 0;
+  return status;
 }
 
 
-void createWinGTK(GtkWidget *window){
+
+static void print_hello (GtkWidget *widget, gpointer data)
+{
+  g_print ("Hello World\n");
+}
+
+static void activate (GtkApplication *app, gpointer user_data)
+{
+    GtkWidget *window;
+    GtkWidget *notebook;
+    GtkWidget *grid;
+    GtkWidget *button;
+    GtkWidget *frame;
+    GtkWidget *label;
+    int i;
+    char bufferf;
+    char bufferl;
+
+    /* create a new window, and set its title */
+    window = gtk_application_window_new (app);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER); /** LA FENETRE SERA POSITIONNEEE AU MILIEU **/
     gtk_window_set_default_size(GTK_WINDOW(window), 400, 400); /** DIMENSION DE LA FENETRE **/
     gtk_window_set_title(GTK_WINDOW(window), "Code validation"); /** TITRE DE LA FENETRE **/
-}
+    gtk_container_set_border_width (GTK_CONTAINER (window), 10);
 
-void test(){
-    printf("Hello, it's working !!\n");
+    notebook = gtk_notebook_new();
+    gtk_container_add(GTK_CONTAINER(window), notebook);
+
+    /* Let's append a bunch of pages to the notebook */
+    for (i = 0; i < 5; i++) {
+	sprintf(bufferf, "Append Frame %d", i + 1);
+	sprintf(bufferl, "Page %d", i + 1);
+
+	frame = gtk_frame_new (bufferf);
+	gtk_container_set_border_width (GTK_CONTAINER (frame), 10);
+	gtk_widget_set_size_request (frame, 100, 75);
+	gtk_widget_show (frame);
+
+	label = gtk_label_new (bufferf);
+	gtk_container_add (GTK_CONTAINER (frame), label);
+	gtk_widget_show (label);
+
+	label = gtk_label_new (bufferl);
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), frame, label);
+    }
+
+    /* Here we construct the container that is going pack our buttons */
+    grid = gtk_grid_new ();
+
+    /* Pack the container in the window */
+    gtk_container_add (GTK_CONTAINER (notebook), grid);
+
+    button = gtk_button_new_with_label ("Button 1");
+    gtk_widget_set_hexpand (button, TRUE);
+
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+
+    /* Place the first button in the grid cell (0, 0), and make it fill
+    * just 1 cell horizontally and vertically (ie no spanning)
+    */
+    gtk_grid_attach (GTK_GRID (grid), button, 0, 0, 1, 1);
+
+    button = gtk_button_new_with_label ("Button 2");
+    g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+
+    /* Place the second button in the grid cell (1, 0), and make it fill
+    * just 1 cell horizontally and vertically (ie no spanning)
+    */
+    gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 1, 1);
+
+    button = gtk_button_new_with_label ("Quit");
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_widget_destroy), window);
+
+
+    gtk_grid_set_row_spacing (GTK_GRID(grid), 50);
+    gtk_grid_set_column_spacing (GTK_GRID(grid), 50);
+
+    /* Place the Quit button in the grid cell (0, 1), and make it
+    * span 2 columns.
+    */
+    gtk_grid_attach (GTK_GRID (grid), button, 0, 2, 1, 1);
+
+
+    // 2ND NOTEBOOK
+    gtk_container_add(GTK_CONTAINER(window), notebook);
+
+    /* Now that we are done packing our widgets, we show them all
+    * in one go, by calling gtk_widget_show_all() on the window.
+    * This call recursively calls gtk_widget_show() on all widgets
+    * that are contained in the window, directly or indirectly.
+    */
+    gtk_widget_show_all (window);
+
 }
