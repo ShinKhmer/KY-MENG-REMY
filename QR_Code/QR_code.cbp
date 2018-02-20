@@ -2,25 +2,21 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="gen_code" />
+		<Option title="QR_code" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/gen_code" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/QR_code" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add option="-Wall -lgdi32" />
-					<Add library="../../../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libmysqlclient.a" />
-				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/gen_code" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/QR_code" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -38,7 +34,6 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="proto.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

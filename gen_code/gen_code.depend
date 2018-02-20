@@ -5,3 +5,13 @@
 	<time.h>
 	<string.h>
 
+1519089590 source:c:\users\cmeng\google drive\0_esgi\2ème année\projet annuel\ky-meng-remy\gen_code\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<winsock2.h>
+	<gtk/gtk.h>
+
