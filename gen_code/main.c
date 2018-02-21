@@ -20,6 +20,7 @@ int log_in_out(int *id_location, char * code_customer);
 void activate(GtkApplication *, gpointer);
 void window_create(GtkApplication *);
 void button_create(char*, int, int, int, int, GtkWidget *, gpointer, int);
+void text_entry_create(int, int, int, int, int);
 void gtk_exit();
 code_generate *profile_new(code_generate *);
 code_generate *profile_free(code_generate *);
@@ -30,6 +31,10 @@ GtkWidget *notebook;
 GtkWidget *vbox;
 GtkWidget *grid;
 GtkWidget *button;
+GtkWidget *label;
+GtkWidget *view;
+GtkTextBuffer *buffer;
+GtkWidget *entry;
 GtkWidget *pTabLabel;
 gchar *sTabLabel;
 
@@ -93,7 +98,7 @@ int check_code(GtkWidget *button, gpointer data){
 
     code_generate *profile = data;
 
-    printf("Code à vérifier : %s\n", profile->code_customer);
+    printf("Code à verifier : %s\n", profile->code_customer);
 
     MYSQL *mysql;
     MYSQL_RES *result = NULL;
@@ -230,7 +235,37 @@ void activate(GtkApplication *app, gpointer user_data){
     /* Buttons creation */
     button_create("Generer un code", 0, 0, 1, 1, generate_code, user_data, 0);
     button_create("Verifier le code", 0, 1, 1, 1, check_code, user_data, 0);
-    button_create("Quitter", 0, 2, 1, 1, exit, window, 1);
+    button_create("Quitter", 0, 3, 1, 1, exit, window, 1);
+
+    vbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+    sTabLabel = g_strdup_printf("Onglet 2");
+    pTabLabel = gtk_label_new(sTabLabel);
+    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, pTabLabel);
+
+ /* Here we construct the container that is going pack our buttons */
+    grid = gtk_grid_new();
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 50);
+    gtk_grid_set_column_spacing (GTK_GRID(grid), 50);
+
+    /* Pack the container in the window */
+    gtk_container_add(GTK_CONTAINER (vbox), grid);
+
+    label = gtk_label_new();
+
+
+    /* TEXTE MODIFIABLE, PAS BON !
+    view = gtk_text_view_new();
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
+    gtk_text_buffer_set_text (buffer, "Hello, this is some text", -1);
+    gtk_grid_attach (GTK_GRID (grid), view, 0, 1, 5, 1);*/
+
+    text_entry_create(10, 0, 2, 1, 1);
+
+
+
+
+
+
 
     /* Now that we are done packing our widgets, we show them all
     * in one go, by calling gtk_widget_show_all() on the window.
@@ -250,8 +285,6 @@ void window_create(GtkApplication *app){
 }
 
 void button_create(char* name, int x, int y, int length, int width, GtkWidget *callback, gpointer data, int swapped){
-
-
     button = gtk_button_new_with_label(name);
     gtk_widget_set_hexpand (button, TRUE);
     gtk_grid_attach (GTK_GRID (grid), button, x, y, length, width);
@@ -263,6 +296,13 @@ void button_create(char* name, int x, int y, int length, int width, GtkWidget *c
         g_signal_connect(button, "clicked", G_CALLBACK(callback), data);
     }
 }
+
+void text_entry_create(int length_text, int x, int y, int length, int width){
+    entry = gtk_entry_new();
+    gtk_entry_set_max_length (GTK_ENTRY (entry), length_text);
+    gtk_grid_attach (GTK_GRID (grid), entry, x, y, length, width);
+}
+
 
 
 
