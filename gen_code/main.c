@@ -16,7 +16,7 @@ typedef struct code_generate{
 
 void generate_code(GtkWidget *button, gpointer data);
 void check_code(GtkWidget *button, gpointer data);
-int log_in_out(int *id_location, char * code_customer);
+int log_in_out(int id_location, char * code_customer);
 void activate(GtkApplication *, gpointer);
 void window_create(GtkApplication *);
 void button_create(char*, int, int, int, int, GtkWidget *, gpointer, int);
@@ -35,6 +35,7 @@ GtkWidget *label;
 GtkWidget *entry;
 GtkWidget *pTabLabel;
 gchar *sTabLabel;
+const gchar *uri;
 
 
 
@@ -44,7 +45,6 @@ int main(int argc, char ** argv)
     code_generate *start = NULL;
 
     start = profile_new(start);
-
 
     /** ==== GTK ===== **/
     GtkApplication *app;
@@ -58,32 +58,6 @@ int main(int argc, char ** argv)
 
     return 0;
 }
-
-
-void generate_code(GtkWidget *button, gpointer data){
-
-    code_generate *profile = data;
-
-    char salt[62]="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    char result[11]="";
-    int letter = 0;
-    int i=0;
-    time_t t;
-
-    srand(time(&t));
-
-    for(i=0;i<10;i++){
-        letter = rand()%62;
-        result[i]=salt[letter];
-    }
-    result[10] = '\0';
-
-    strcpy(profile->code_customer,result);
-
-    printf("Code genere : %s\n", profile->code_customer);
-
-}
-
 
 void check_code(GtkWidget *button, gpointer data){
 
@@ -110,7 +84,8 @@ void check_code(GtkWidget *button, gpointer data){
         {
             if(strcmp(row[5],sText) == 0)
             {
-                printf("Code valide\n");
+                printf("Code valide");
+                log_in_out(1, sText);
             }else{
                 printf("Code non valide\n");
             }
@@ -125,7 +100,7 @@ void check_code(GtkWidget *button, gpointer data){
     }
 }
 
-int log_in_out(int *id_location, char * code_customer){
+int log_in_out(int id_location, char * code_customer){
 
     int id_customer = 0;
     int inside;
@@ -203,15 +178,17 @@ int sign_in(){
 /* --- GTK --- */
 void activate(GtkApplication *app, gpointer user_data){
 
+    // Create a window
     window_create(app);
 
+    // Create a notebook
     notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
 
     gtk_container_add(GTK_CONTAINER(window), notebook);
 
     vbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-    sTabLabel = g_strdup_printf("Onglet 1");
+    sTabLabel = g_strdup_printf("Code");
     pTabLabel = gtk_label_new(sTabLabel);
 
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, pTabLabel);
@@ -219,36 +196,40 @@ void activate(GtkApplication *app, gpointer user_data){
 
     /* Here we construct the container that is going pack our buttons */
     grid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 50);
-    gtk_grid_set_column_spacing (GTK_GRID(grid), 50);
-
-    /* Pack the container in the window */
-    gtk_container_add(GTK_CONTAINER (vbox), grid);
-
-    /* Buttons creation */
-    button_create("Generer un code", 0, 0, 1, 1, generate_code, user_data, 0);
-    button_create("Je n'ai pas de code", 0, 1, 1, 1, NULL, NULL, 0);
-    button_create("Quitter", 0, 2, 1, 1, exit, window, 1);
-
-    vbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-    sTabLabel = g_strdup_printf("Onglet 2");
-    pTabLabel = gtk_label_new(sTabLabel);
-    gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, pTabLabel);
-
- /* Here we construct the container that is going pack our buttons */
-    grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 30);
     gtk_grid_set_column_spacing (GTK_GRID(grid), 30);
 
     /* Pack the container in the window */
     gtk_container_add(GTK_CONTAINER (vbox), grid);
 
-    label = gtk_label_new("Insérer le code (10 caractères)");
+    /* Label creation */
+    label = gtk_label_new("Veuillez insérer votre code client (10 caractères)");
     gtk_widget_set_hexpand (label, TRUE);
     gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
 
+    /* Text Entry creation */
     text_entry_create(10, 0, 2, 1, 1);
+
+    /* Buttons creation */
     button_create("Valider", 0, 3, 1, 1, check_code, vbox, 0);
+
+    /* URL - DON'T WORKING :/
+    button = gtk_link_button_new("Google");
+    gtk_link_button_set_uri(GTK_LINK_BUTTON(button), "http://google.com/");
+    gtk_grid_attach (GTK_GRID (grid), button, 0, 4, 1, 1);
+    */
+
+    /* No code label */
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(label, "<span color=\"blue\">Pas de code : Veuillez vous inscrire sur le site</span>");
+    gtk_widget_set_hexpand (label, TRUE);
+    gtk_grid_attach (GTK_GRID (grid), label, 0, 4, 1, 1);
+
+    /* Exit button */
+    button_create("Quitter", 0, 6, 1, 1, exit, window, 1);
+
+
+
 
     /* RECUPERATION DU TEXTE
     Fonction récupération du texte => copy_code
@@ -268,6 +249,10 @@ void window_create(GtkApplication *app){
     gtk_container_set_border_width (GTK_CONTAINER (window), 10);
 }
 
+void notebook_tab_change(GtkWidget *Notebook, gpointer data){
+    gtk_notebook_set_current_page(data, 2);
+}
+
 void button_create(char* name, int x, int y, int length, int width, GtkWidget *callback, gpointer data, int swapped){
     button = gtk_button_new_with_label(name);
     gtk_widget_set_hexpand (button, TRUE);
@@ -280,6 +265,7 @@ void button_create(char* name, int x, int y, int length, int width, GtkWidget *c
         g_signal_connect(button, "clicked", G_CALLBACK(callback), data);
     }
 }
+
 
 void text_entry_create(int length_text, int x, int y, int length, int width){
     entry = gtk_entry_new();
