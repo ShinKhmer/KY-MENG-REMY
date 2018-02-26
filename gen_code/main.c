@@ -15,7 +15,7 @@ typedef struct code_generate{
 
 
 void generate_code(GtkWidget *button, gpointer data);
-int check_code(GtkWidget *button, gpointer data);
+void check_code(GtkWidget *button, gpointer data);
 int log_in_out(int *id_location, char * code_customer);
 void activate(GtkApplication *, gpointer);
 void window_create(GtkApplication *);
@@ -32,8 +32,6 @@ GtkWidget *vbox;
 GtkWidget *grid;
 GtkWidget *button;
 GtkWidget *label;
-GtkWidget *view;
-GtkTextBuffer *buffer;
 GtkWidget *entry;
 GtkWidget *pTabLabel;
 gchar *sTabLabel;
@@ -43,13 +41,6 @@ gchar *sTabLabel;
 
 int main(int argc, char ** argv)
 {
-    /** ==== PART CODE GENERATOR =====   **/
-    /*do{
-        generate_code(code);
-    }while(check_code(code));
-    printf("client code : %s\n",code);*/
-    /** ==== PART INSERT DATABASE ===== **/
-
     code_generate *start = NULL;
 
     start = profile_new(start);
@@ -94,11 +85,13 @@ void generate_code(GtkWidget *button, gpointer data){
 }
 
 
-int check_code(GtkWidget *button, gpointer data){
+void check_code(GtkWidget *button, gpointer data){
 
-    code_generate *profile = data;
+    const gchar *sText;
 
-    printf("Code à verifier : %s\n", profile->code_customer);
+    sText = gtk_entry_get_text(GTK_ENTRY(entry));
+
+    printf("Code a verifier : %s\n", sText);
 
     MYSQL *mysql;
     MYSQL_RES *result = NULL;
@@ -113,23 +106,23 @@ int check_code(GtkWidget *button, gpointer data){
         sprintf(request,"SELECT * FROM customer");
         mysql_query(mysql,request);
         result = mysql_use_result(mysql);
-        while ((row = mysql_fetch_row(result)))
+        while((row = mysql_fetch_row(result)))
         {
-            if(strcmp(row[5],profile->code_customer) == 0)
+            if(strcmp(row[5],sText) == 0)
             {
-                return 99;
+                printf("Code valide\n");
+            }else{
+                printf("Code non valide\n");
             }
-            printf("Code existant dans la BDD : %s\n", row[5]);
+            printf("Code(s) existant(s) dans la BDD : %s\n", row[5]);
         }
         mysql_free_result(result);
         mysql_close(mysql);
-        return 0;
     }
     else
     {
-        return 99;
+        printf("Erreur lors de la connexion !");
     }
-    return 99;
 }
 
 int log_in_out(int *id_location, char * code_customer){
@@ -150,7 +143,7 @@ int log_in_out(int *id_location, char * code_customer){
         sprintf(request,"SELECT * FROM customer");
         mysql_query(mysql,request);
         result = mysql_use_result(mysql);
-        while ((row = mysql_fetch_row(result)))
+        while((row = mysql_fetch_row(result)))
         {
             if(strcmp(row[5],code_customer)== 0)
             {
@@ -234,8 +227,8 @@ void activate(GtkApplication *app, gpointer user_data){
 
     /* Buttons creation */
     button_create("Generer un code", 0, 0, 1, 1, generate_code, user_data, 0);
-    button_create("Verifier le code", 0, 1, 1, 1, check_code, user_data, 0);
-    button_create("Quitter", 0, 3, 1, 1, exit, window, 1);
+    button_create("Je n'ai pas de code", 0, 1, 1, 1, NULL, NULL, 0);
+    button_create("Quitter", 0, 2, 1, 1, exit, window, 1);
 
     vbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
     sTabLabel = g_strdup_printf("Onglet 2");
@@ -244,34 +237,25 @@ void activate(GtkApplication *app, gpointer user_data){
 
  /* Here we construct the container that is going pack our buttons */
     grid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 50);
-    gtk_grid_set_column_spacing (GTK_GRID(grid), 50);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 30);
+    gtk_grid_set_column_spacing (GTK_GRID(grid), 30);
 
     /* Pack the container in the window */
     gtk_container_add(GTK_CONTAINER (vbox), grid);
 
-    label = gtk_label_new();
-
-
-    /* TEXTE MODIFIABLE, PAS BON !
-    view = gtk_text_view_new();
-    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
-    gtk_text_buffer_set_text (buffer, "Hello, this is some text", -1);
-    gtk_grid_attach (GTK_GRID (grid), view, 0, 1, 5, 1);*/
+    label = gtk_label_new("Insérer le code (10 caractères)");
+    gtk_widget_set_hexpand (label, TRUE);
+    gtk_grid_attach (GTK_GRID (grid), label, 0, 1, 1, 1);
 
     text_entry_create(10, 0, 2, 1, 1);
+    button_create("Valider", 0, 3, 1, 1, check_code, vbox, 0);
 
-
-
-
-
-
-
-    /* Now that we are done packing our widgets, we show them all
-    * in one go, by calling gtk_widget_show_all() on the window.
-    * This call recursively calls gtk_widget_show() on all widgets
-    * that are contained in the window, directly or indirectly.
+    /* RECUPERATION DU TEXTE
+    Fonction récupération du texte => copy_code
+    Paramètres : gchar
+    Fonction appellant check_code
     */
+
     gtk_widget_show_all (window);
 
 }
@@ -302,8 +286,6 @@ void text_entry_create(int length_text, int x, int y, int length, int width){
     gtk_entry_set_max_length (GTK_ENTRY (entry), length_text);
     gtk_grid_attach (GTK_GRID (grid), entry, x, y, length, width);
 }
-
-
 
 
 code_generate *profile_new(code_generate *start){

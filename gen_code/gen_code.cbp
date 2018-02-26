@@ -16,7 +16,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-Wall -lgdi32" />
-					<Add library="../../../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libmysqlclient.a" />
+					<Add library="../../../CodeBlocks/MinGW/lib/libmysqlclient.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
