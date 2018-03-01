@@ -15,7 +15,17 @@
 	<winsock2.h>
 	<gtk/gtk.h>
 
-1519911763 source:d:\esgi\ky-meng-remy\gen_code\main.c
+1519742591 source:d:\esgi\ky-meng-remy\gen_code\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<winsock2.h>
+	<gtk/gtk.h>
+
+1519842567 source:d:\esgi\ky-meng-remy\gtk_test\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>

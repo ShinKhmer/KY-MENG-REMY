@@ -2,25 +2,28 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="gen_code" />
+		<Option title="xml" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/gen_code" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/xml" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="C:/libxml/libxml2-2.7.8.win32/include" />
+					<Add directory="C:/libxml/libxml2-2.7.8.win32/lib" />
+					<Add directory="C:/libxml/iconv-1.9.2.win32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wall -lgdi32" />
-					<Add library="../../../CodeBlocks/MinGW/lib/libmysqlclient.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/libmysqlclient.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/gen_code" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/xml" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -38,20 +41,11 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="proto.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<debugger />
-			<DoxyBlocks>
-				<comment_style block="4" line="0" />
-				<doxyfile_project />
-				<doxyfile_build />
-				<doxyfile_warnings />
-				<doxyfile_output />
-				<doxyfile_dot />
-				<general />
-			</DoxyBlocks>
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

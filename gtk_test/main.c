@@ -13,12 +13,6 @@ typedef struct code_generate{
     struct code_generate *next;
 }code_generate;
 
-typedef struct various_info{
-    code_generate *start;
-    GtkWidget *window;
-    struct various_info *next;
-}various_info;
-
 void generate_code(GtkWidget *button, gpointer data);
 void check_code(GtkWidget *button, gpointer data);
 int log_in_out(int id_location, const gchar * code_customer);
@@ -35,15 +29,12 @@ GtkWidget *window;
 GtkWidget *dropdownList;
 GtkWidget *notebook;
 GtkWidget *vbox;
-GtkWidget *dialog;
 GtkWidget *grid;
 GtkWidget *button;
 GtkWidget *label;
 GtkWidget *entry;
 GtkWidget *pTabLabel;
 gchar *sTabLabel;
-
-
 
 
 int main(int argc, char ** argv)
@@ -62,137 +53,25 @@ int main(int argc, char ** argv)
 
     printf("A bientot !");
 
-    /* Free struct */
-    while(start != NULL){
-        start = profile_free(start);
-    }
+    // Free struct !
 
     return 0;
 }
 
-void check_code(GtkWidget *button, gpointer data){
 
-    const gchar *sText;
-    gint id_location = 0;
-
-    // id_location from the dropdown list
-    id_location = gtk_combo_box_get_active(GTK_COMBO_BOX(dropdownList));
-    id_location += 1;   // For having the good id_location from the database
-    printf("%d\n", id_location);
-
-    // text from the customer code entry
-    sText = gtk_entry_get_text(GTK_ENTRY(entry));
-
-    printf("Code a verifier : %s\n", sText);
-
-    MYSQL *mysql;
-    MYSQL_RES *result = NULL;
-    MYSQL_ROW row;
-    char request[150];
-
-    mysql = mysql_init(NULL);
-    mysql_options(mysql, MYSQL_READ_DEFAULT_GROUP, "option");
-
-    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
-    {
-        sprintf(request,"SELECT * FROM customer");
-        mysql_query(mysql,request);
-        result = mysql_use_result(mysql);
-        while((row = mysql_fetch_row(result)))
-        {
-            if(strcmp(row[5],sText) == 0)
-            {
-                printf("Code valide");
-                log_in_out(id_location, sText);
-            }else{
-                printf("Code non valide\n");
-            }
-            printf("Code(s) existant(s) dans la BDD : %s\n", row[5]);
-        }
-        mysql_free_result(result);
-        mysql_close(mysql);
-    }
-    else
-    {
-        printf("Erreur lors de la connexion !");
-    }
-}
-
-int log_in_out(int id_location, const gchar * code_customer){
-
-    int id_customer = 0;
-    int inside = 0;
-
-    MYSQL *mysql;
-    MYSQL_RES *result = NULL;
-    MYSQL_ROW row;
-    char request[150];
-
-    mysql = mysql_init(NULL);
-    mysql_options(mysql, MYSQL_READ_DEFAULT_GROUP, "option");
-
-    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
-    {
-        sprintf(request,"SELECT * FROM customer");
-        mysql_query(mysql,request);
-        result = mysql_use_result(mysql);
-        while((row = mysql_fetch_row(result)))
-        {
-            if(strcmp(row[5],code_customer)== 0)
-            {
-                id_customer = atoi(row[0]);
-                inside = atoi(row[6]);
-            }
-        }
-        mysql_free_result(result);
-        if(id_customer != 0 && inside == 0)
-        {
-            sprintf(request,"INSERT INTO `history`(`id_history`, `date_entry`, `date_exit`, `id_customer`, `id_location`) VALUES (NULL,CURRENT_TIMESTAMP,NULL,%d,%d)",id_customer,id_location);
-            mysql_query(mysql,request);
-            sprintf(request,"UPDATE `customer` SET inside = 1 WHERE id_customer = %d",id_customer);
-            mysql_query(mysql,request);
-
-        }
-        else if(id_customer != 0 && inside == 1)
-        {
-
-            sprintf(request,"UPDATE `history` SET `date_exit` = CURRENT_TIMESTAMP WHERE id_customer = %d AND date_exit IS NULL",id_customer);
-            mysql_query(mysql,request);
-            sprintf(request,"UPDATE `customer` SET inside = 0 WHERE id_customer = %d",id_customer);
-            mysql_query(mysql,request);
-        }
-        else
-        {
-            mysql_close(mysql);
-            return 99;
-        }
-        mysql_close(mysql);
-    }
-    else {
-            return 99;
-    }
-    return 99;
-}
 
 
 /* --- GTK --- */
 void activate(GtkApplication *app, gpointer user_data){
 
+    gint id_location;
+    int i = 0;
+
     /* Create a window */
     window_create(app);
 
     /* Dialog box */
-    quick_message(GTK_WINDOW(window), "Pensez à choisir le bon lieu pour votre application !");
-
-    /* Dropdown list => DO FUNCTION ! */
-    dropdownList = gtk_combo_box_text_new();
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dropdownList), 0, "Bastille" );
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dropdownList), 1, "République" );
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dropdownList), 2, "Odéon" );
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dropdownList), 3, "Place d'Italie" );
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dropdownList), 4, "Ternes" );
-    gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(dropdownList), 5, "Beaubourg" );
-    gtk_combo_box_set_active(GTK_COMBO_BOX(dropdownList), 0);
+    quick_message(GTK_WINDOW(window), "Veuillez choisir le lieu :");
 
     /* Create a notebook */
     notebook = gtk_notebook_new();
@@ -226,7 +105,7 @@ void activate(GtkApplication *app, gpointer user_data){
     text_entry_create(10, 0, 2, 1, 1);
 
     /* Buttons creation */
-    button_create("Valider", 0, 3, 1, 1, check_code, vbox, 0);
+    //button_create("Valider", 0, 3, 1, 1, check_code, vbox, 0);
 
     /* No code label */
     label = gtk_label_new(NULL);
@@ -237,22 +116,44 @@ void activate(GtkApplication *app, gpointer user_data){
     /* Exit button */
     button_create("Quitter", 0, 6, 1, 1, exit, window, 1);
 
+
+
+
+    /* RECUPERATION DU TEXTE
+    Fonction récupération du texte => copy_code
+    Paramètres : gchar
+    Fonction appellant check_code
+    */
+
     gtk_widget_show_all (window);
 
 }
 
 void quick_message (GtkWindow *parent, gchar *message)
 {
-    GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
-    dialog = gtk_message_dialog_new (parent,
-                                     flags,
-                                     GTK_MESSAGE_INFO,
-                                     GTK_BUTTONS_CLOSE,
-                                     message,
-                                     NULL);
+    GtkWidget *dialog, *label, *content_area;
+    GtkDialogFlags flags;
 
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    gtk_widget_destroy (dialog);
+    // Create the widgets
+    flags = GTK_DIALOG_DESTROY_WITH_PARENT;
+    dialog = gtk_dialog_new();
+    /* Dropdown list => DO FUNCTION ! */
+    dropdownList = gtk_combo_box_text_new();
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX(dropdownList), 0, "Bastille" );
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX(dropdownList), 1, "République" );
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX(dropdownList), 2, "Odéon" );
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX(dropdownList), 3, "Place d'Italie" );
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX(dropdownList), 4, "Ternes" );
+    gtk_combo_box_text_insert_text(GTK_COMBO_BOX(dropdownList), 5, "Beaubourg" );
+    gtk_combo_box_set_active(GTK_COMBO_BOX(dropdownList), 0);
+
+    /*content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+    label = gtk_label_new (message);*/
+
+    // Ensure that the dialog box is destroyed when the user responds
+    g_signal_connect_swapped (dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog);
+
+    gtk_widget_show_all (dialog);
 }
 
 void window_create(GtkApplication *app){
@@ -290,8 +191,6 @@ void text_entry_create(int length_text, int x, int y, int length, int width){
 
 code_generate *profile_new(code_generate *start){
     code_generate *profile;
-
-    profile = malloc(sizeof(sizeof(code_generate)));
 
     profile->id_customer = 0;
     profile->code_customer[0] = '\0';
