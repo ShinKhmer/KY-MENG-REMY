@@ -7,27 +7,82 @@
 #include <winsock2.h>
 #include <libxml/xmlwriter.h>
 
-
-//#if defined(LIBXML_WRITER_ENABLED) && defined(LIBXML_OUTPUT_ENABLED)
-
 #define MY_ENCODING "UTF-8"
 
 void testXmlwriterFilename(const char *uri,int location,char* dateAsked);
 xmlChar *ConvertInput(const char *in, const char *encoding);
+xmlTextWriterPtr new_xmlTextWriter(const char *uri);
+int new_xmlTextWriterStartDocument(xmlTextWriterPtr writer);
+int new_xmlTextWriterStartElement(xmlTextWriterPtr writer, xmlChar *name);
+int new_xmlTextWriterWriteFormatElement(xmlTextWriterPtr writer, xmlChar *name, char *customer, char *location);
+int new_xmlTextWriterEndElement(xmlTextWriterPtr writer);
+int new_xmlTextWriterEndDocument(xmlTextWriterPtr writer);
 
 int main()
 {
-/*   char dateAsked[]="190218";
+    char tempo[30];
+    char dateAsked[]="190218";
     char nameFile[20];
     int location = 1;
-    sprintf(nameFile,"%d_%s.xml",location,dateAsked);
-    testXmlwriterFilename(nameFile,location,dateAsked);
-*/
+    int i = 1;
+    MYSQL *mysql;
+    MYSQL_RES *result = NULL;
+    MYSQL_ROW row;
+    char request[150];
+    mysql = mysql_init(NULL);
+    mysql_options(mysql, MYSQL_READ_DEFAULT_GROUP, "option");
+    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
+    {
+        sprintf(request,"SELECT * FROM location");
+        mysql_query(mysql,request);
+        result = mysql_use_result(mysql);
+        while ((row = mysql_fetch_row(result)))
+        {
+            i++;
+        }
+        mysql_free_result(result);
+
+    }
+    else
+    {
+        return 0;
+    }
+    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
+    {
+        sprintf(request,"SELECT CURRENT_DATE");
+        mysql_query(mysql,request);
+        result = mysql_use_result(mysql);
+        while ((row = mysql_fetch_row(result)))
+        {
+            strcpy(tempo,row[0]);
+        }
+        mysql_free_result(result);
+        mysql_close(mysql);
+    }
+    else
+    {
+        return 0;
+    }
 
 
 
-      xmlCleanupParser();
-         xmlMemoryDump();
+
+
+
+
+
+
+
+    sprintf(dateAsked,"%c%c%c%c%c%c",tempo[8],tempo[9],tempo[5],tempo[6],tempo[2],tempo[3]);
+
+    for(;location<i;location++)
+    {
+        sprintf(nameFile,"%d_%s.xml",location,dateAsked);
+        testXmlwriterFilename(nameFile,location,dateAsked);
+        xmlCleanupParser();
+        xmlMemoryDump();
+    }
+    printf("DONE SUCCESSFULLY ! \n");
     return 0;
 }
 
@@ -36,8 +91,8 @@ void
 testXmlwriterFilename(const char *uri,int location,char* dateAsked)
 {
     int rc;
-    xmlTextWriterPtr writer;
 
+    xmlTextWriterPtr writer;
     MYSQL *mysql;
     MYSQL_RES *result = NULL;
     MYSQL_ROW row;
@@ -54,31 +109,23 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
     char now[10]="";
 
     /* Create a new XmlWriter for uri, with no compression. */
-    writer = xmlNewTextWriterFilename(uri, 0);
-    if (writer == NULL) {
-        printf("testXmlwriterFilename: Error creating the xml writer\n");
+    writer = new_xmlTextWriter(uri);
+    if(writer == NULL)
         return;
-    }
+
 
     /* Start the document with the xml default for the version,*/
-    rc = xmlTextWriterStartDocument(writer, NULL, MY_ENCODING, NULL);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterStartDocument\n");
+    rc = new_xmlTextWriterStartDocument(writer);
+    if(rc < 0)
         return;
-    }
-    rc = xmlTextWriterStartElement(writer, BAD_CAST "MAIN");
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+
+    rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"MAIN");
+    if(rc < 0)
         return;
-    }
-    rc = xmlTextWriterStartElement(writer, BAD_CAST "Lieu");
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+
+    rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"Lieu");
+    if(rc < 0)
         return;
-    }
 
     if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
@@ -97,36 +144,25 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
     {
         return;
     }
-    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "nom", "%s",
-                                         locationName);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
-        return;
-    }
 
-    rc = xmlTextWriterEndElement(writer);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+    rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"nom", "%s", locationName);
+    if(rc < 0)
         return;
-    }
+
+    rc = new_xmlTextWriterEndElement(writer);
+    if(rc < 0)
+        return;
+
 
     /* Start an element named "Info" as child of Lieu. */
-    rc = xmlTextWriterStartElement(writer, BAD_CAST "Info");
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+    rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"Info");
+    if(rc < 0)
         return;
-    }
 
     /* Start an element named "HEADER" as child of ORDER. */
-    rc = xmlTextWriterStartElement(writer, BAD_CAST "Entree");
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+    rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"Entree");
+    if(rc < 0)
         return;
-    }
 
  if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
@@ -135,50 +171,35 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
         result = mysql_use_result(mysql);
         while ((row = mysql_fetch_row(result)))
         {
-                strcpy(customerName,row[1]);
-                strcpy(customerSurname,row[2]);
+            strcpy(customerName,row[1]);
+            strcpy(customerSurname,row[2]);
             strcpy(hour,row[0]);
             sprintf(now,"%c%c%c%c%c%c",hour[8],hour[9],hour[5],hour[6],hour[2],hour[3]);
             sprintf(hour,"%c%c:%c%c",hour[11],hour[12],hour[14],hour[15]);
             if(strcmp(now,dateAsked)==0){
-                rc = xmlTextWriterStartElement(writer, BAD_CAST "personne");
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+                rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"Personne");
+                if(rc < 0)
                     return;
-                }
 
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "nom", "%s",
-                                                     customerName);
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"nom", "%s", customerName);
+                if(rc < 0)
                     return;
-                }
+
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "prenom", "%s",
-                                                     customerSurname);
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"prenom", "%s", customerName);
+                if(rc < 0)
                     return;
-                }
+
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heure", "%s",
-                                                     hour);
-                if (rc < 0) {
-                    printf("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"heure", "%s", customerName);
+                if(rc < 0)
                     return;
-                }
 
                 /* Close the element named personne. */
-                rc = xmlTextWriterEndElement(writer);
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+                rc = new_xmlTextWriterEndElement(writer);
+                if(rc < 0)
                     return;
-                }
             }
         }
         mysql_free_result(result);
@@ -190,19 +211,14 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
      /* Start an element named "ENTRY" as child of ENTRIES. */
 
     /* Close the element named Entree. */
-    rc = xmlTextWriterEndElement(writer);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+    rc = new_xmlTextWriterEndElement(writer);
+    if(rc < 0)
         return;
-    }
+
     /* Start an element named "HEADER" as child of ORDER. */
-    rc = xmlTextWriterStartElement(writer, BAD_CAST "Sorties");
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+    rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"Sorties");
+    if(rc < 0)
         return;
-    }
 
 
  if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
@@ -213,51 +229,36 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
 
         while ((row = mysql_fetch_row(result)))
         {
-                strcpy(customerName,row[1]);
-                strcpy(customerSurname,row[2]);
+            strcpy(customerName,row[1]);
+            strcpy(customerSurname,row[2]);
             strcpy(hour,row[0]);
             sprintf(now,"%c%c%c%c%c%c",hour[8],hour[9],hour[5],hour[6],hour[2],hour[3]);
             sprintf(hour,"%c%c:%c%c",hour[11],hour[12],hour[14],hour[15]);
 
             if(strcmp(now,dateAsked)==0){
-                rc = xmlTextWriterStartElement(writer, BAD_CAST "personne");
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+                rc = new_xmlTextWriterStartElement(writer, (xmlChar *)"Personne");
+                if(rc < 0)
                     return;
-                }
 
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "nom", "%s",
-                                                     customerName);
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"nom", "%s", customerName);
+                if(rc < 0)
                     return;
-                }
+
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "prenom", "%s",
-                                                     customerSurname);
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"prenom", "%s", customerName);
+                if(rc < 0)
                     return;
-                }
+
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST "heure", "%s",
-                                                     hour);
-                if (rc < 0) {
-                    printf("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"heure", "%s", customerName);
+                if(rc < 0)
                     return;
-                }
 
                 /* Close the element named personne. */
-                rc = xmlTextWriterEndElement(writer);
-                if (rc < 0) {
-                    printf
-                        ("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+                rc = new_xmlTextWriterEndElement(writer);
+                if(rc < 0)
                     return;
-                }
             }
         }
         mysql_free_result(result);
@@ -268,20 +269,14 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
     }
 
     /* Close the element named personne. */
-    rc = xmlTextWriterEndElement(writer);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+    rc = new_xmlTextWriterEndElement(writer);
+    if(rc < 0)
         return;
-    }
 
     /* Close the element named Entree. */
-    rc = xmlTextWriterEndElement(writer);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+    rc = new_xmlTextWriterEndElement(writer);
+    if(rc < 0)
         return;
-    }
 
 
 
@@ -289,12 +284,9 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
      * function xmlTextWriterEndElement, but since we do not want to
      * write any other elements, we simply call xmlTextWriterEndDocument,
      * which will do all the work. */
-    rc = xmlTextWriterEndDocument(writer);
-    if (rc < 0) {
-        printf
-            ("testXmlwriterFilename: Error at xmlTextWriterEndDocument\n");
-        return;
-    }
+    rc = new_xmlTextWriterEndDocument(writer);
+    if(rc < 0)
+        return
 
     xmlFreeTextWriter(writer);
 }
@@ -348,4 +340,71 @@ ConvertInput(const char *in, const char *encoding)
     }
 
     return out;
+}
+
+
+
+
+
+
+
+xmlTextWriterPtr new_xmlTextWriter(const char *uri){
+    xmlTextWriterPtr writer;
+
+    writer = xmlNewTextWriterFilename(uri, 0);
+    if (writer == NULL) {
+        printf("testXmlwriterFilename: Error creating the xml writer\n");
+    }
+
+    return writer;
+}
+
+int new_xmlTextWriterStartDocument(xmlTextWriterPtr writer){
+    int rc;
+
+    rc = xmlTextWriterStartDocument(writer, NULL, MY_ENCODING, NULL);
+    if(rc < 0)
+        printf("testXmlwriterFilename: Error at xmlTextWriterStartDocument\n");
+
+    return rc;
+}
+
+int new_xmlTextWriterStartElement(xmlTextWriterPtr writer, xmlChar *name){
+    int rc;
+
+    rc = xmlTextWriterStartElement(writer, BAD_CAST name);
+    if(rc < 0)
+        printf("testXmlwriterFilename: Error at xmlTextWriterStartElement\n");
+
+    return rc;
+}
+
+int new_xmlTextWriterWriteFormatElement(xmlTextWriterPtr writer, xmlChar *name, char *customer, char *location){
+    int rc;
+
+    rc = xmlTextWriterWriteFormatElement(writer, BAD_CAST name, customer, location);
+    if(rc < 0)
+        printf("testXmlwriterFilename: Error at xmlTextWriterWriteFormatElement\n");
+
+    return rc;
+}
+
+int new_xmlTextWriterEndElement(xmlTextWriterPtr writer){
+    int rc;
+
+    rc = xmlTextWriterEndElement(writer);
+    if(rc < 0)
+        printf("testXmlwriterFilename: Error at xmlTextWriterEndElement\n");
+
+    return rc;
+}
+
+int new_xmlTextWriterEndDocument(xmlTextWriterPtr writer){
+    int rc;
+
+    rc = xmlTextWriterEndDocument(writer);
+    if(rc < 0)
+        printf("testXmlwriterFilename: Error at xmlTextWriterEndDocument\n");
+
+    return rc;
 }

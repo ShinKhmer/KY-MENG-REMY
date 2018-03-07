@@ -102,6 +102,7 @@ void check_code(GtkWidget *button, gpointer data){
         {
             if(strcmp(row[5],sText) == 0)
             {
+                /* Pop up */
                 printf("Code valide");
                 log_in_out(id_location, sText);
             }else{

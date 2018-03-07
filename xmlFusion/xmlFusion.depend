@@ -1,13 +1,11 @@
 # depslib dependency file v1.0
-1519983582 source:d:\dossier de stephane\cours\2i\projet_annuel\xml\main.c
+1520366706 source:c:\program files (x86)\codeblocks\projects\ky meng remy\ky-meng-remy\xmlfusion\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
-	<winsock.h>
-	<MYSQL/mysql.h>
-	<winsock2.h>
 	<libxml/xmlwriter.h>
+	<libxml/xmlreader.h>
 
 1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlwriter.h
 	<libxml/xmlversion.h>
@@ -140,13 +138,19 @@
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1520385053 source:c:\program files (x86)\codeblocks\projects\ky meng remy\ky-meng-remy\xml\main.c
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-	<string.h>
-	<winsock.h>
-	<MYSQL/mysql.h>
-	<winsock2.h>
-	<libxml/xmlwriter.h>
+1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlreader.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/xmlIO.h>
+	<libxml/relaxng.h>
+	<libxml/xmlschemas.h>
+
+1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\relaxng.h
+	<libxml/xmlversion.h>
+	<libxml/hash.h>
+	<libxml/xmlstring.h>
+
+1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlschemas.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
 
