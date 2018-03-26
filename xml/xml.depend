@@ -150,3 +150,13 @@
 	<winsock2.h>
 	<libxml/xmlwriter.h>
 
+1520438819 source:d:\esgi\ky-meng-remy\xml\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<winsock2.h>
+	<libxml/xmlwriter.h>
+

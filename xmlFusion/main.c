@@ -8,7 +8,7 @@
 
 #define MY_ENCODING "UTF-8"
 
-static void processNode(xmlTextReaderPtr reader);
+static void processNode(xmlTextReaderPtr reader, int *i, int *k);
 static void streamFile(const char *filename);
 void get_date(char* output);
 void transfo_date(char* date);
@@ -31,9 +31,23 @@ int main()
     return 0;
 }
 
-static void processNode(xmlTextReaderPtr reader)
+static void processNode(xmlTextReaderPtr reader, int * i,int * k)
  {
+
     const xmlChar *name, *value;
+    char ***tab = NULL;
+    char ***tab_temp = NULL;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    int line = 0;
+    int column = 3;
+
+
+
 
     name = xmlTextReaderConstName(reader);
     if (name == NULL)
@@ -41,31 +55,137 @@ static void processNode(xmlTextReaderPtr reader)
 
     value = xmlTextReaderConstValue(reader);
 
-    printf("%d %d %s %d %d",
-	    xmlTextReaderDepth(reader),
-	    xmlTextReaderNodeType(reader),
-	    name,
-	    xmlTextReaderIsEmptyElement(reader),
-	    xmlTextReaderHasValue(reader));
-    if (value == NULL)
-        printf("\n");
-    else {
-        if (xmlStrlen(value) > 40)
-            printf(" %.40s...\n", value);
-        else
-	    printf(" %s\n", value);
+    if(xmlTextReaderDepth() == 2)
+        i++;
+
+    if (i==3) { //début d'entrée
+
+        if(xmlTextReaderDepth(reader) == 4)
+        {
+
+
+            if(k==0) // nom
+            {
+                /**ALLOCATION D'UNE LIGNE DE PLUS**/
+                // line found
+                line++;
+
+                if(line > 1){
+                    /** Malloc tab_temp **/
+                    tab_temp = malloc(sizeof(char **) * (line - 1));
+
+                    // Malloc 2 : column
+                    for(x=0; x<line; x++){
+                        tab_temp[x] = malloc(sizeof(char *) * column);
+                        // Malloc 3 : characters
+                        for(y=0; y<50; y++){    // length characters = 50
+                            tab_temp[x][y] = malloc(sizeof(char) * 50);
+                        }
+                    }
+
+                    /** Copy tab in tab_temp **/
+                    for(x=0; x<line; x++){
+                        for(y=0; y<column; y++){
+                            for(z=0; z<50; z++){
+                                tab_temp[x][y][z] = tab[x][y][z];
+                            }
+                        }
+                    }
+
+                    /** Free tab **/
+                    for(x=0; x<line; x++){
+                        for(y=0; y<column; y++){
+                            free tab[x][y];
+                        }
+                        free(tab[x]);
+                    }
+                }
+
+                /** Malloc tab **/
+                // Malloc 1 : line
+                tab = malloc(sizeof(char **) * line);
+
+                // Malloc 2 : column
+                for(x=0; x<line; x++){
+                    tab[x] = malloc(sizeof(char *) * column);
+                    // Malloc 3 : characters
+                    for(y=0; y<50; y++){    // length characters = 50
+                        tab[x][y] = malloc(sizeof(char) * 50);
+                    }
+                }
+
+                /** Paste tab_temp to tab **/
+                if(tab > 1){
+                    for(x=0; x<line; x++){
+                        for(y=0; y<column; y++){
+                            for(z=0; z<50; z++){
+                                tab[x][y][z] = tab_temp[x][y][z];
+                            }
+                        }
+                    }
+                }
+
+
+                /** Free tab_temp **/
+                for(x=0; x<line; x++){
+                    for(y=0; y<column; y++){
+                        free tab[x][y];
+                    }
+                    free(tab[x]);
+                }
+
+                sprintf(tab[line][k],"%s",value);
+                k++;
+            }
+            if(k==1) // prenom
+            {
+                sprintf(tab[line][k],"%s",value);
+                k++;
+            }
+            if(k==2) // heure
+            {
+                sprintf(tab[line][k],"%s",value);
+                k=0;
+            }
+        }
     }
-}
+
+
+    if (i==5) { //début de sortie
+        if(xmlTextReaderDepth(reader) == 4)
+        { /**ALLOCATION D'UNE LIGNE DE PLUS**/
+
+            if(k==0) // nom
+            {
+                sprintf(tab[k][],"%s",value);
+                k++;
+            }
+            if(k==1) // prenom
+            {
+                sprintf(tab[k][],"%s",value);
+                k++
+            }
+            if(k==2) // heure
+            {
+                sprintf(tab[k][],"%s",value);
+                k=0;
+            }
+        }
+    }
+ }
 
 static void streamFile(const char *filename) {
     xmlTextReaderPtr reader;
     int ret;
 
+    int i = 0;
+    int k = 0;
+
     reader = xmlReaderForFile(filename, NULL, 0);
     if (reader != NULL) {
         ret = xmlTextReaderRead(reader);
         while (ret == 1) {
-            processNode(reader);
+            processNode(reader,i,k);
             ret = xmlTextReaderRead(reader);
         }
         xmlFreeTextReader(reader);
@@ -76,6 +196,7 @@ static void streamFile(const char *filename) {
         fprintf(stderr, "Unable to open %s\n", filename);
     }
 }
+
 
 void get_date(char* output)
 {
@@ -119,3 +240,6 @@ void transfo_date(char* date)
     }
 return;
 }
+
+
+

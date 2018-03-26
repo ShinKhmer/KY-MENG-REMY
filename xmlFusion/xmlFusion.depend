@@ -154,3 +154,11 @@
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
+1520421450 source:d:\esgi\ky-meng-remy\xmlfusion\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<libxml/xmlwriter.h>
+	<libxml/xmlreader.h>
+

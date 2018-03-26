@@ -9,6 +9,8 @@
 
 #define MY_ENCODING "UTF-8"
 
+void search_location(char *locationName, char *tempo);
+
 void testXmlwriterFilename(const char *uri,int location,char* dateAsked);
 xmlChar *ConvertInput(const char *in, const char *encoding);
 xmlTextWriterPtr new_xmlTextWriter(const char *uri);
@@ -21,7 +23,7 @@ int new_xmlTextWriterEndDocument(xmlTextWriterPtr writer);
 int main()
 {
     char tempo[30];
-    char dateAsked[]="190218";
+    char dateAsked[]="070318";
     char nameFile[20];
     int location = 1;
     int i = 1;
@@ -47,7 +49,7 @@ int main()
     {
         return 0;
     }
-    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
+    /*if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
         sprintf(request,"SELECT CURRENT_DATE");
         mysql_query(mysql,request);
@@ -64,16 +66,8 @@ int main()
         return 0;
     }
 
-
-
-
-
-
-
-
-
-
     sprintf(dateAsked,"%c%c%c%c%c%c",tempo[8],tempo[9],tempo[5],tempo[6],tempo[2],tempo[3]);
+    */
 
     for(;location<i;location++)
     {
@@ -127,23 +121,8 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
     if(rc < 0)
         return;
 
-    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
-    {
-        sprintf(request,"SELECT * FROM location");
-        mysql_query(mysql,request);
-        result = mysql_use_result(mysql);
-        while ((row = mysql_fetch_row(result)))
-        {
-            if(strcmp(tempo,row[0])==0)
-            {strcpy(locationName,row[1]);
-            break;}
-        }
-        mysql_free_result(result);
-    }
-    else
-    {
-        return;
-    }
+
+    search_location(locationName, tempo);
 
     rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"nom", "%s", locationName);
     if(rc < 0)
@@ -164,7 +143,7 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
     if(rc < 0)
         return;
 
- if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
+    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
         sprintf(request,"SELECT date_entry,name_customer,surname_customer FROM customer,history WHERE id_location = %d AND history.id_customer = customer.id_customer",location);
         mysql_query(mysql,request);
@@ -187,12 +166,12 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
                     return;
 
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"prenom", "%s", customerName);
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"prenom", "%s", customerSurname);
                 if(rc < 0)
                     return;
 
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"heure", "%s", customerName);
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"heure", "%s", hour);
                 if(rc < 0)
                     return;
 
@@ -246,12 +225,12 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
                     return;
 
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"prenom", "%s", customerName);
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"prenom", "%s", customerSurname);
                 if(rc < 0)
                     return;
 
                 /* Add an attribute with name "version" and value "1.0" to ORDER. */
-                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"heure", "%s", customerName);
+                rc = new_xmlTextWriterWriteFormatElement(writer, (xmlChar *)"heure", "%s", hour);
                 if(rc < 0)
                     return;
 
@@ -342,6 +321,37 @@ ConvertInput(const char *in, const char *encoding)
     return out;
 }
 
+
+
+
+
+
+void search_location(char *locationName, char *tempo){
+    MYSQL *mysql;
+    MYSQL_RES *result = NULL;
+    MYSQL_ROW row;
+    char request[150];
+    mysql = mysql_init(NULL);
+    mysql_options(mysql, MYSQL_READ_DEFAULT_GROUP, "option");
+
+    if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
+    {
+        sprintf(request,"SELECT * FROM location");
+        mysql_query(mysql,request);
+        result = mysql_use_result(mysql);
+        while ((row = mysql_fetch_row(result)))
+        {
+            if(strcmp(tempo,row[0])==0)
+            {strcpy(locationName,row[1]);
+            break;}
+        }
+        mysql_free_result(result);
+    }
+    else
+    {
+        printf("Connection error with the database !\n");
+    }
+}
 
 
 
