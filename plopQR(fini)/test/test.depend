@@ -1,0 +1,48 @@
+# depslib dependency file v1.0
+1524087749 source:d:\dossier de stephane\cours\2i\projannu.2\plopqr\nouveau dossier\qrcodegen-demo.c
+	<stdbool.h>
+	<stddef.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"qrcodegen.h"
+
+1523895890 d:\dossier de stephane\cours\2i\projannu.2\plopqr\nouveau dossier\qrcodegen.h
+	<stdbool.h>
+	<stddef.h>
+	<stdint.h>
+
+1523895861 source:d:\dossier de stephane\cours\2i\projannu.2\plopqr\nouveau dossier\qrcodegen.c
+	<assert.h>
+	<limits.h>
+	<stdlib.h>
+	<string.h>
+	"qrcodegen.h"
+
+1506652858 c:\lpng1634\png.h
+	"pnglibconf.h"
+	"pngconf.h"
+
+1506652858 c:\lpng1634\pnglibconf.h
+
+1506652858 c:\lpng1634\pngconf.h
+	<limits.h>
+	<stddef.h>
+	<stdio.h>
+	<setjmp.h>
+	<time.h>
+
+1523908458 source:d:\dossier de stephane\cours\2i\projannu.2\plopqr\test\lodepng.c
+	"lodepng.h"
+	<limits.h>
+	<stdio.h>
+	<stdlib.h>
+
+1523908720 d:\dossier de stephane\cours\2i\projannu.2\plopqr\test\lodepng.h
+	<string.h>
+	<vector>
+	<string>
+	"lodepng.h"
+	<iostream>
+	"lodepng.h"
+
