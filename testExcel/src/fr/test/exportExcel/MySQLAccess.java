@@ -106,8 +106,11 @@ public class MySQLAccess {
             else
                 System.out.println("status: solved");
 
-            plop = id_ticket + "," + subject + "," + description + "," + status + line;
-                resultTab.add(plop);
+//            plop = id_ticket + "," + subject + "," + description + "," + status + line;
+            resultTab.add(id_ticket);
+            resultTab.add(subject);
+            resultTab.add(description);
+            resultTab.add(status);
 //            System.out.println("Date: " + date);
 //            System.out.println("Comment: " + comment);
         }

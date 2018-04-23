@@ -15,8 +15,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="27" lean-forward="false" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+            <state relative-caret-position="221">
+              <caret line="13" column="48" lean-forward="true" selection-start-line="13" selection-start-column="48" selection-end-line="13" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -27,15 +27,15 @@
       <file leaf-file-name="MySQLAccess.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/MySQLAccess.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="295">
-              <caret line="108" column="87" lean-forward="true" selection-start-line="108" selection-start-column="87" selection-end-line="108" selection-end-column="87" />
+            <state relative-caret-position="351">
+              <caret line="96" column="68" lean-forward="true" selection-start-line="94" selection-start-column="12" selection-end-line="96" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1524406980978" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
-                <marker date="1524406980978" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
-                <marker date="1524406980978" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
-                <marker date="1524406980978" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
-                <marker date="1524406980978" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
+                <marker date="1524501299864" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
+                <marker date="1524501299864" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
+                <marker date="1524501299864" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
+                <marker date="1524501299864" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
+                <marker date="1524501299864" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
               </folding>
             </state>
           </provider>
@@ -44,8 +44,8 @@
       <file leaf-file-name="CSVUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/CSVUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="53" column="21" lean-forward="true" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+            <state relative-caret-position="691">
+              <caret line="53" column="21" lean-forward="false" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -99,8 +99,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -128,7 +127,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -334,6 +334,41 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/Main.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/MySQLAccess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1683">
+          <caret line="108" column="87" lean-forward="true" selection-start-line="108" selection-start-column="87" selection-end-line="108" selection-end-column="87" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1524501299864" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
+            <marker date="1524501299864" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
+            <marker date="1524501299864" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/CSVUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="867">
+          <caret line="53" column="21" lean-forward="true" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
@@ -342,24 +377,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="db://[worknshare]consoles\worknshare">
-      <provider selected="true" editor-type-id="0.CONSOLE">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" current-schema="mysql" session-id="MAIN">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="db://[worknshare]consoles\worknshare" />
     <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/MySQLAccess.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1547">
           <caret line="97" column="26" lean-forward="true" selection-start-line="97" selection-start-column="26" selection-end-line="97" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1524406980978" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
-            <marker date="1524406980978" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
-            <marker date="1524406980978" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
-            <marker date="1524406980978" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
-            <marker date="1524406980978" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
+            <marker date="1524501299864" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
+            <marker date="1524501299864" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
           </folding>
         </state>
       </provider>
@@ -417,25 +446,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/MysqlConnect.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="87" lean-forward="true" selection-start-line="9" selection-start-column="87" selection-end-line="9" selection-end-column="118" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="db://[worknshare]consoles\worknshare">
-      <provider selected="true" editor-type-id="0.CONSOLE">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" current-schema="mysql" session-id="MAIN">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/MysqlConnect.java" />
+    <entry file="db://[worknshare]consoles\worknshare" />
     <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/CSVUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="53" column="21" lean-forward="true" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+        <state relative-caret-position="691">
+          <caret line="53" column="21" lean-forward="false" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -444,23 +460,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/MySQLAccess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="108" column="87" lean-forward="true" selection-start-line="108" selection-start-column="87" selection-end-line="108" selection-end-column="87" />
+        <state relative-caret-position="351">
+          <caret line="96" column="68" lean-forward="true" selection-start-line="94" selection-start-column="12" selection-end-line="96" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1524406980978" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
-            <marker date="1524406980978" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
-            <marker date="1524406980978" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
-            <marker date="1524406980978" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
-            <marker date="1524406980978" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="1237:1251" ph=" SELECT statement (CUSTOMERS)" />
+            <marker date="1524501299864" expanded="true" signature="1237:1257" ph=" SELECT statement (TICKET)" />
+            <marker date="1524501299864" expanded="true" signature="1466:1532" ph=" INSERT statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="2147:2218" ph=" SELECT statement (COMMENTS)" />
+            <marker date="1524501299864" expanded="true" signature="2446:2493" ph=" DELETE statement (COMMENTS)" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/fr/test/exportExcel/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="27" lean-forward="false" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+        <state relative-caret-position="221">
+          <caret line="13" column="48" lean-forward="true" selection-start-line="13" selection-start-column="48" selection-end-line="13" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
