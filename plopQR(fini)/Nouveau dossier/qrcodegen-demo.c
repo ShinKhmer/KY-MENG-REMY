@@ -1,29 +1,3 @@
-/*
- * QR Code generator demo (C)
- *
- * Run this command-line program with no arguments. The program
- * computes a demonstration QR Codes and print it to the console.
- *
- * Copyright (c) Project Nayuki. (MIT License)
- * https://www.nayuki.io/page/qr-code-generator-library
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * - The above copyright notice and this permission notice shall be included in
- *   all copies or substantial portions of the Software.
- * - The Software is provided "as is", without warranty of any kind, express or
- *   implied, including but not limited to the warranties of merchantability,
- *   fitness for a particular purpose and noninfringement. In no event shall the
- *   authors or copyright holders be liable for any claim, damages or other
- *   liability, whether in an action of contract, tort or otherwise, arising from,
- *   out of or in connection with the Software or the use or other dealings in the
- *   Software.
- */
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -32,19 +6,35 @@
 #include "qrcodegen.h"
 
 
-
-// Function prototypes
-static void doBasicDemo(char **mee);
-static void printQr(const uint8_t qrcode[]);
+static void doBasicDemo(char **str_code,char** name_of_file);
+static void printQr(const uint8_t qrcode[],char* name_of_file);
 
 void encodeOneStep(const char* filename, const unsigned char* image, unsigned width, unsigned height);
 
-// The main application program.
-int main(int argc,char** argv) {
-printf("%s", argv[1]);
-	doBasicDemo(argv[1]);
 
-	return EXIT_SUCCESS;
+int main(int argc,char** argv) {
+
+FILE *file = NULL;
+char name[100];
+if(argc == 3)
+{
+    doBasicDemo(argv[1],argv[2]);
+    sprintf(name,"%s.png",argv[2]);
+    file = fopen(name,"rb");
+    if(file != NULL){
+        fclose(file);
+        return 0;//qr created successfully
+    }
+
+    return 98;//file doesn't exist/not created
+}
+else if(argc <= 2)
+    return 100;//random error/unknown situation
+else if(argc > 3)
+    return 101;//random error/unknown situation
+
+return 99;
+
 }
 
 
@@ -52,8 +42,10 @@ printf("%s", argv[1]);
 /*---- Demo suite ----*/
 
 // Creates a single QR Code, then prints it to the console.
-static void doBasicDemo(char **mee) {
-	const char *text = mee;  // User-supplied text
+static void doBasicDemo(char **str_code,char** name_of_file) {
+
+	const char *text = str_code;  // User-supplied text
+
 	enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;  // Error correction level
 
 	// Make and print the QR Code symbol
@@ -62,21 +54,23 @@ static void doBasicDemo(char **mee) {
 	bool ok = qrcodegen_encodeText(text, tempBuffer, qrcode, errCorLvl,
 		qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
 	if (ok)
-		printQr(qrcode);
+		printQr(qrcode,name_of_file);
 }
 
 /*---- Utilities ----*/
 
 // Prints the given QR Code to the console.
-static void printQr(const uint8_t qrcode[]) {
+static void printQr(const uint8_t qrcode[], char* name_of_file) {
 	int size = qrcodegen_getSize(qrcode);
-	printf("%d\n",size);
 
     int p=-1;
     int l=0;
-    int color=0;
+    int color=1;
      unsigned x2, y2;
-	const char* filename = "test2.png";
+	char *filename = NULL;
+    filename = malloc(sizeof(char)*strlen(name_of_file)+5);
+    sprintf(filename,"%s.png",name_of_file);
+
   unsigned width = 168, height = 168;
   unsigned char* image = malloc(width * height * 4);
 
@@ -85,18 +79,16 @@ static void printQr(const uint8_t qrcode[]) {
 	bool plop;
 	for (int y = 0; y < size ; y++) {
 		for (int x = 0; x < size ; x++) {
-			//fputs((qrcodegen_getModule(qrcode, x, y) ? "\17\17" : "  "), stdout);
                 plop =qrcodegen_getModule(qrcode, x, y);
 			if(plop)
                 {
                     p++;
-                    color=1;
-                    printf("%c%c",c,c);
+                    color=0;
                 }
                 else{
                     p++;
-                    color=0;
-                    printf("  ");
+                    color=1;
+
                 }
 
             if(p>=21){
@@ -123,14 +115,12 @@ static void printQr(const uint8_t qrcode[]) {
                 }
             }
 		}
-		fputs("\n", stdout);
 	}
-
   encodeOneStep(filename, image, width, height);
-
+  free(filename);
   free(image);
 
-	fputs("\n", stdout);
+	//fputs("\n", stdout);
 }
 
 
@@ -144,4 +134,3 @@ void encodeOneStep(const char* filename, const unsigned char* image, unsigned wi
   /*if there's an error, display it*/
   if(error) printf("error %u: %s\n", error, lodepng_error_text(error));
 }
-

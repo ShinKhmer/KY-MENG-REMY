@@ -47,7 +47,7 @@ int main()
     }
     else
     {
-        return 0;
+        return 98;
     }
     if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
@@ -63,7 +63,7 @@ int main()
     }
     else
     {
-        return 0;
+        return 7;
     }
 
     sprintf(dateAsked,"%c%c%c%c%c%c",tempo[8],tempo[9],tempo[5],tempo[6],tempo[2],tempo[3]);
@@ -145,7 +145,7 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
 
     if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
-        sprintf(request,"SELECT date_entry,name_customer,surname_customer FROM customer,history WHERE id_location = %d AND history.id_customer = customer.id_customer",location);
+        sprintf(request,"SELECT date_entry,name_customer,last_name_customer FROM customers,history WHERE id_location = %d AND history.id_customer = customers.id_customer",location);
         mysql_query(mysql,request);
         result = mysql_use_result(mysql);
         while ((row = mysql_fetch_row(result)))
@@ -202,7 +202,7 @@ testXmlwriterFilename(const char *uri,int location,char* dateAsked)
 
  if(mysql_real_connect(mysql, "127.0.0.1", "root","", "worknshare", 0, NULL, 0))
     {
-        sprintf(request,"SELECT date_exit,name_customer,surname_customer FROM customer,history WHERE id_location = %d AND history.id_customer = customer.id_customer",location);
+        sprintf(request,"SELECT date_exit,name_customer,last_name_customer FROM customers,history WHERE id_location = %d AND history.id_customer = customers.id_customer",location);
         mysql_query(mysql,request);
         result = mysql_use_result(mysql);
 

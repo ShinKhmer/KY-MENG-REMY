@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1525123997 source:d:\dossier de stephane\cours\2i\projannu.2\inoutqr\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<winsock2.h>
+

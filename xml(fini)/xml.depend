@@ -9,20 +9,20 @@
 	<winsock2.h>
 	<libxml/xmlwriter.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlwriter.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlwriter.h
 	<libxml/xmlversion.h>
 	<stdarg.h>
 	<libxml/xmlIO.h>
 	<libxml/list.h>
 	<libxml/xmlstring.h>
 
-1308512438 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlversion.h
+1308516038 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlversion.h
 	<libxml/xmlexports.h>
 	<ansidecl.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlexports.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlexports.h
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlio.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlio.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
@@ -30,7 +30,7 @@
 	<libxml/parser.h>
 	<libxml/encoding.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\globals.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\globals.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xmlerror.h>
@@ -39,7 +39,7 @@
 	<libxml/xmlmemory.h>
 	<libxml/threads.h>
 
-1288882724 c:\libxml\libxml2-2.7.8.win32\include\libxml\parser.h
+1288886324 c:\libxml\libxml2-2.7.8.win32\include\libxml\parser.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
@@ -53,42 +53,42 @@
 	<libxml/xmlIO.h>
 	<libxml/globals.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\tree.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\tree.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/xmlstring.h>
 	<libxml/xmlregexp.h>
 	<libxml/xmlmemory.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlstring.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlstring.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlregexp.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlregexp.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/dict.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\dict.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\dict.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlmemory.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/threads.h>
 	<libxml/globals.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\threads.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\threads.h
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\hash.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\hash.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/dict.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\valid.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\valid.h
 	<libxml/xmlversion.h>
 	<libxml/xmlerror.h>
 	<libxml/tree.h>
@@ -96,44 +96,44 @@
 	<libxml/xmlautomata.h>
 	<libxml/xmlregexp.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlerror.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlerror.h
 	<libxml/parser.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\list.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\list.h
 	<libxml/xmlversion.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlautomata.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\xmlautomata.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/xmlregexp.h>
 
-1286864732 c:\libxml\libxml2-2.7.8.win32\include\libxml\entities.h
+1286868332 c:\libxml\libxml2-2.7.8.win32\include\libxml\entities.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1288886032 c:\libxml\libxml2-2.7.8.win32\include\libxml\encoding.h
+1288889632 c:\libxml\libxml2-2.7.8.win32\include\libxml\encoding.h
 	<libxml/xmlversion.h>
 	<iconv.h>
 	<unicode/ucnv.h>
 	<libxml/tree.h>
 
-1146770614 c:\libxml\iconv-1.9.2.win32\include\iconv.h
+1146774214 c:\libxml\iconv-1.9.2.win32\include\iconv.h
 	"iconv.h"
 	<stddef.h>
 	<errno.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\sax.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\sax.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\xlink.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\xlink.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1253806320 c:\libxml\libxml2-2.7.8.win32\include\libxml\sax2.h
+1253809920 c:\libxml\libxml2-2.7.8.win32\include\libxml\sax2.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
@@ -151,6 +151,16 @@
 	<libxml/xmlwriter.h>
 
 1520438819 source:d:\esgi\ky-meng-remy\xml\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<winsock2.h>
+	<libxml/xmlwriter.h>
+
+1525270433 source:d:\dossier de stephane\cours\2i\projannu.2\xml(fini)\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>

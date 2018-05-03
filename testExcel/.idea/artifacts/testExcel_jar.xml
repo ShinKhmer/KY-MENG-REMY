@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="testExcel:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/testExcel_jar</output-path>
+    <root id="archive" name="testExcel.jar">
+      <element id="module-output" name="mysql-connector-java-5.1.46" />
+      <element id="module-output" name="testExcel" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/mysql-connector-java-5.1.46-bin.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/src/lib/c3p0-0.9.1-pre6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/src/lib/jboss-common-jdbc-wrapper-src.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/src/lib/jboss-common-jdbc-wrapper.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/src/lib/c3p0-0.9.1-pre6.src.zip" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/src/lib/slf4j-api-1.6.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mysql-connector-java-5.1.46/mysql-connector-java-5.1.46.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
